@@ -2279,3 +2279,108 @@ body.axp-view .axp-today-label {
   border: 1px solid #555;
   border-radius: 4px;
 }
+
+/* Базово: картата да е позиционирана (не променя layout) */
+.axie-card {
+  position: relative;
+}
+
+/* 🔴 Червен плътен воал върху картата – без промени по структурата */
+.axie-card.low-axp::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* покрива 100% */
+  background: rgba(255, 60, 60, 0.24);
+  /* плътност – увеличи/намали по вкус */
+  border-radius: inherit;
+  /* следва радиуса на картата */
+  pointer-events: none;
+  /* кликовете минават */
+  z-index: 999;
+  /* над съдържанието */
+}
+
+/* (по желание) лек акцентен градиент върху плътния воал */
+.axie-card.low-axp.gradient::after {
+  background:
+    rgba(255, 60, 60, 0.20),
+    linear-gradient(135deg, rgba(255, 80, 80, 0.30), rgba(255, 0, 0, 0) 65%);
+}
+
+/* Двуредов текст върху оверлея + диагонал + пулс (без конфликт с transform) */
+.axie-card.low-axp::before {
+  content: "⚠️  Warning! ⚠️\A⚠️ Change Slot NOW!⚠️";
+  white-space: pre;
+  /* \A = нов ред */
+  text-align: center;
+  line-height: 1.2;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* ъгълът се управлява чрез CSS променлива; смени на -15deg … -45deg */
+  --warn-rotate: -24deg;
+  transform: translate(-50%, -50%) rotate(var(--warn-rotate)) scale(var(--pulse-scale, 1));
+  transform-origin: center;
+  z-index: 1000;
+  /* над оверлея */
+  pointer-events: none;
+
+  padding: 8px 14px;
+  /* responsive размер; коригирай при нужда */
+  font-size: clamp(10px, 1.6vw, 12px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #fff;
+
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+
+  /* пулсиране чрез CSS променлива (не пипа transform директно) */
+  animation: warnPulseOverlay 2.2s ease-in-out infinite both;
+  will-change: transform, opacity;
+}
+
+/* Кейфреймове: променяме само --pulse-scale */
+@keyframes warnPulseOverlay {
+
+  0%,
+  100% {
+    --pulse-scale: 1;
+    opacity: 1;
+  }
+
+  50% {
+    --pulse-scale: 1.06;
+    /* колко силен да е пулса */
+    opacity: .92;
+  }
+}
+
+/* По избор: бързи варианти за плътност на оверлея */
+.axie-card.low-axp.low-axp--strong::after {
+  background: rgba(255, 60, 60, 0.32);
+}
+
+.axie-card.low-axp.low-axp--soft::after {
+  background: rgba(255, 60, 60, 0.14);
+}
+
+/* По избор: бързи варианти за ъгъл */
+.axie-card.low-axp.angle-15::before {
+  --warn-rotate: -15deg;
+}
+
+.axie-card.low-axp.angle-30::before {
+  --warn-rotate: -30deg;
+}
+
+.axie-card.low-axp.angle-45::before {
+  --warn-rotate: -45deg;
+}

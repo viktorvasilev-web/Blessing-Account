@@ -4,6 +4,29 @@ import { getMementoForCard } from './calculateAxieValue/calculateMemento.js';
 import { classColors, classIcons } from './config.js';
 import { highlightShouldAscend } from './ui/highlightAscend.js';
 
+/* ---------- Настройки за AXP Today ---------- */
+const AXP_TODAY_LOW_THRESHOLD = 2500;
+
+/* Безопасен прочит на днешния AXP от row.xpToday или от стринга AXPtoday */
+function getTodayAXP(row) {
+  // 1) ако имаме числово xpToday
+  if (typeof row.xpToday === 'number' && Number.isFinite(row.xpToday)) return row.xpToday;
+
+  // 2) ако xpToday е стринг, опитай да извадиш число
+  if (row.xpToday != null) {
+    const n = Number(String(row.xpToday).replace(/[^\d.-]/g, ''));
+    if (Number.isFinite(n)) return n;
+  }
+
+  // 3) fallback: парсни от "AXPtoday" вида "Today: 0, Yesterday: 6173"
+  if (row.AXPtoday) {
+    const m = String(row.AXPtoday).match(/Today:\s*(\d+)/i);
+    if (m) return parseInt(m[1], 10) || 0;
+  }
+
+  return 0;
+}
+
 export function renderAxieCard(row, classColorsOverride = classColors, collectionIcons, viewConfig) {
   const id = row.ID;
   const link = `https://app.axieinfinity.com/marketplace/axies/${id}`;
@@ -24,8 +47,13 @@ export function renderAxieCard(row, classColorsOverride = classColors, collectio
   axieCard.setAttribute('data-special-collection', row.specialCollection || '');
   axieCard.setAttribute('data-delegation', row.Delegation?.toLowerCase() || "");
 
-  const safeXp = (typeof row.xpToday === 'number') ? row.xpToday : (parseInt(row.xpToday) || 0);
-  axieCard.setAttribute('data-xp-today', safeXp);
+  // Ново: изчисляваме днешния AXP и маркираме картата при ниска стойност
+  const todayAXP = getTodayAXP(row);
+  axieCard.setAttribute('data-xp-today', todayAXP);
+  if (todayAXP < AXP_TODAY_LOW_THRESHOLD) {
+    axieCard.classList.add('low-axp');
+    axieCard.setAttribute('data-low-axp', 'true');
+  }
 
   const displayClassNameMap = { Aqua: 'Aquatic' };
 
@@ -98,10 +126,10 @@ export function renderAxieCard(row, classColorsOverride = classColors, collectio
     <a href="${link}" target="_blank" style="text-decoration: none; color: inherit; display: block; height: 100%;">
       <img class="axie-img" src="https://axiecdn.axieinfinity.com/axies/${id}/axie/axie-full-transparent.png" />
 
-      <!-- 🔙 ВРЪЩАМЕ ЛЕЙБЪЛА ПРЕДИ СЛОТА, както беше -->
+      <!-- 🔙 Лейбълът за днешен/вчерашен AXP -->
       ${axpTodayStr ? `<div class="axp-today-label">${axpTodayStr}</div>` : ''}
 
-      <!-- СЛОТ ЗА 18-ДНЕВНАТА AXP ГРАФИКА -->
+      <!-- Слот за 18-дневната AXP графика -->
       <div class="axp-slot" data-axp-slot></div>
 
       ${window.currentView !== "axp" ? `<div class="memento-breakdown">${mementoBreakdown}</div>` : ''}
