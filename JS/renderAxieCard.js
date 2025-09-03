@@ -5,7 +5,8 @@ import { classColors, classIcons } from './config.js';
 import { highlightShouldAscend } from './ui/highlightAscend.js';
 
 /* ---------- Настройки за AXP Today ---------- */
-const AXP_TODAY_LOW_THRESHOLD = 2500;
+const AXP_TODAY_LOW_THRESHOLD = 2500; // червено
+const AXP_TODAY_WARN_THRESHOLD = 6500; // оранжево
 
 /* Безопасен прочит на днешния AXP от row.xpToday или от стринга AXPtoday */
 function getTodayAXP(row) {
@@ -47,12 +48,18 @@ export function renderAxieCard(row, classColorsOverride = classColors, collectio
   axieCard.setAttribute('data-special-collection', row.specialCollection || '');
   axieCard.setAttribute('data-delegation', row.Delegation?.toLowerCase() || "");
 
-  // Ново: изчисляваме днешния AXP и маркираме картата при ниска стойност
+  // Ново: изчисляваме днешния AXP и маркираме картата при ниска/средна стойност
   const todayAXP = getTodayAXP(row);
   axieCard.setAttribute('data-xp-today', todayAXP);
+
   if (todayAXP < AXP_TODAY_LOW_THRESHOLD) {
+    // червен слой
     axieCard.classList.add('low-axp');
     axieCard.setAttribute('data-low-axp', 'true');
+  } else if (todayAXP < AXP_TODAY_WARN_THRESHOLD) {
+    // оранжев слой
+    axieCard.classList.add('warn-axp');
+    axieCard.setAttribute('data-warn-axp', 'true');
   }
 
   const displayClassNameMap = { Aqua: 'Aquatic' };

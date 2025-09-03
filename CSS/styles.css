@@ -2384,3 +2384,58 @@ body.axp-view .axp-today-label {
 .axie-card.low-axp.angle-45::before {
   --warn-rotate: -45deg;
 }
+
+/* 🟠 Оранжев воал за warn-axp (< 6500 и >= 2500) */
+.axie-card.warn-axp::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 160, 0, 0.22);
+  /* оранжево */
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* (по желание) градиент вариант за warn-axp */
+.axie-card.warn-axp.gradient::after {
+  background:
+    rgba(255, 160, 0, 0.18),
+    linear-gradient(135deg, rgba(255, 170, 0, 0.30), rgba(255, 170, 0, 0) 65%);
+}
+
+/* Надписът да се показва и при low-axp (червено), и при warn-axp (оранжево) */
+.axie-card.low-axp::before,
+.axie-card.warn-axp::before {
+  content: "⚠️  Warning! ⚠️\A⚠️ Change Slot NOW!⚠️";
+  white-space: pre;
+  text-align: center;
+  line-height: 1.2;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  --warn-rotate: -24deg;
+  /* смени -15deg…-45deg по избор */
+  transform: translate(-50%, -50%) rotate(var(--warn-rotate)) scale(var(--pulse-scale, 1));
+  transform-origin: center;
+  z-index: 1000;
+  pointer-events: none;
+
+  padding: 8px 14px;
+  font-size: clamp(6px, 1.6vw, 11px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #fff;
+
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+
+  animation: warnPulseOverlay 2.2s ease-in-out infinite both;
+  will-change: transform, opacity;
+}
