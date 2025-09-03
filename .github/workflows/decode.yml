@@ -1,0 +1,25 @@
+name: Auto Decode Axies
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"  # ⏱️ На всеки 15 минути
+  workflow_dispatch:         # 🔘 Позволява ръчно стартиране
+
+jobs:
+  run-decode:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run decode script
+        run: python3 decode_axies.py

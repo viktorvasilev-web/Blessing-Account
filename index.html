@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>AXP Analytics</title>
+  <link rel="icon" href="logo1.png" type="image/png">
+
+  <!-- 📚 Библиотеки -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+  <!-- 🎨 Стилове -->
+  <link rel="stylesheet" href="CSS/styles.css" />
+</head>
+
+<body>
+
+  <!-- 🟦 Sidebar с филтри и бутони -->
+  <div class="sidebar">
+    <div id="filterCollectionSwitch"></div>
+    <div id="All Accounts"></div>
+    <div id="ascendFilterContainer">
+      <button id="ascendFilterBtn">🔼 Ascend Only</button>
+    </div>
+    <div id="filterClassButtons" class="class-buttons"></div>
+    <select id="filterBreed" style="display: none;">
+      <option value="">Всички Breed</option>
+    </select>
+    <select id="filterLevel" style="display: none;">
+      <option value="">Всички Level</option>
+    </select>
+    <div id="levelInputContainer">
+      <div id="levelSliderContainer"></div>
+      <div id="levelSliderValue">Level: 1</div>
+      <div id="puritySliderContainer"></div>
+    </div>
+    <input type="text" id="filterGene" placeholder="Part" />
+  </div>
+
+  <!-- 🟨 Основна част: Top Header + меню + Axie карти -->
+  <main class="main-content">
+
+    <!-- 🔝 Top Header -->
+    <div id="topHeader"></div>
+
+    <!-- 🌍 Глобално меню (viewSwitcher се скрива от view-controller.js) -->
+    <div id="globalMenu">
+      <div id="viewSwitcher" class="view-switcher"></div>
+    </div>
+
+    <!-- ⏳ Зареждащ спинър -->
+    <div class="epic-spinner" id="loadingSpinner">
+      <div class="half-circle-spinner">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+      </div>
+      <div class="spinner-text">AXP Loading...</div>
+    </div>
+
+    <!-- 🧬 Axie карти -->
+    <div class="container" id="axieContainer"></div>
+  </main>
+
+  <!-- 📦 Скриптове (подредбата е важна) -->
+  <script type="module" src="JS/config.js"></script>
+
+  <!-- 🧭 Първо инициализираме AXP изгледа -->
+  <script type="module" src="JS/view-controller.js"></script>
+
+  <!-- Глобално меню (без да сменяме изгледи) -->
+  <script type="module" src="JS/global-menu/global-menu-data-extract.js"></script>
+  <script type="module" src="JS/global-menu/sorting-global-menu.js"></script>
+  <script type="module" src="JS/global-menu/menu.js"></script>
+
+  <!-- AXP & рендер -->
+  <script src="JS/global-menu/updateAXPSum.js" defer></script>
+  <script type="module" src="JS/axp-loader.js"></script>
+  <script type="module" src="JS/main.js"></script>
+  <script type="module" src="JS/ui/filterGene.js"></script>
+
+  <!-- 🔝 Рендер на Top Header -->
+  <script type="module">
+    import { renderTopHeader } from './JS/global-menu/top-header.js';
+    renderTopHeader();
+  </script>
+
+  <!-- ❌ Премахнато: авто-клик по AXP бутона (вече не ни трябва) -->
+
+</body>
+
+</html>

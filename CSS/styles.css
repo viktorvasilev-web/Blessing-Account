@@ -1,0 +1,2281 @@
+/* ---------------------------------------
+🌐 GLOBAL RESET & BODY
+---------------------------------------- */
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1e1e1e;
+  color: #eee;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------
+🟪 SIDEBAR
+---------------------------------------- */
+.sidebar {
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+  height: fit-content;
+  background: #2a2a2a;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #2c2c2c;
+  margin-right: 12px;
+}
+
+#filterCollectionSwitch {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.collection-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #2c2c2c;
+  border-radius: 16px;
+  padding: 4px 8px;
+  width: 160px;
+  height: 32px;
+}
+
+.collection-switch .label {
+  flex: 1;
+  text-align: center;
+  font-size: 10px;
+  color: #ccc;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  /* 🟢 нова по-мека анимация */
+}
+
+
+.collection-switch .label.selected {
+  background: white;
+  color: #000;
+  border-radius: 12px;
+  padding: 4px 8px;
+  font-weight: bold;
+  transition: all 0.4s ease-in-out;
+  /* 🟢 добавено за по-мека анимация */
+}
+
+
+.label-left {
+  text-align: left;
+  padding-left: 4px;
+  margin-right: 6px;
+}
+
+.label-center {
+  text-align: center;
+}
+
+.label-right {
+  text-align: right;
+  padding-right: 4px;
+  margin-left: 6px;
+}
+
+.collection-switch .label.circle {
+  width: 18px;
+  /* Размер на кръгчето */
+  height: 18px;
+  /* Размер на кръгчето */
+  border-radius: 50%;
+  /* Създава кръг чрез равни радиуси */
+  background-color: #f0f0f0;
+  /* Променете фоновия цвят, ако желаете */
+  border: 2px solid #ccc;
+  /* Граница за кръгчето */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Центрира текста */
+  font-size: 12px;
+  /* Размер на текста в кръга */
+  text-align: center;
+  color: #333;
+  /* Цвета на текста */
+}
+
+/* Визия като Purity */
+#levelRangeNative {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 6px;
+  background: #e5e7eb;
+  /* светла (бяла) писта */
+  outline: none;
+}
+
+#levelRangeNative::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #3b82f6;
+  /* син плъзгач */
+  border: 2px solid #ffffff;
+  /* бял ръб за контраст */
+  cursor: pointer;
+}
+
+#levelRangeNative::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #3b82f6;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+}
+
+
+.memento-breakdown {
+  margin-top: -4px;
+  margin-left: -6px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  align-items: center;
+  justify-content: flex-start;
+  /* ⬅️ Подравняване вляво */
+  font-size: 12px;
+  color: #ccc;
+}
+
+.memento-class {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+}
+
+
+.memento-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.ascend-highlight {
+  color: #42aaff !important;
+  font-weight: bold;
+}
+
+
+.ascend-background {
+  background-color: #1a3d5d !important;
+  border: 2px solid #42aaff;
+}
+
+.level-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.level-wrapper::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  /* нагоре над Level-а */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #222;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.level-wrapper:hover::after {
+  opacity: 1;
+}
+
+#ascendFilterBtn {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#ascendFilterBtn.active {
+  background-color: #42aaff;
+  color: black;
+  font-weight: bold;
+}
+
+
+.level-badge {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background-color: #3a3a3a;
+  color: white;
+  font-weight: 550 !important;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  line-height: 22px;
+  font-size: 10px !important;
+  border: 2px solid #dedede;
+  transition: background-color 0.2s, color 0.2s;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.level-badge {
+  width: 20px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+}
+
+
+
+/* При ascend – сменяме цвета */
+.ascend-highlight .level-badge {
+  background-color: #1a3d5d;
+  border: 2px solid #42aaff;
+  color: #42aaff;
+}
+
+
+/* Контейнерът вече без общ gap; управляваме разстоянията индивидуално */
+.axie-header {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+/* По-голям отстъп САМО след Level */
+.level-wrapper {
+  margin-bottom: 18px;
+  /* можеш да ползваш 12px или 8px според вкуса */
+}
+
+/* Breed и Purity – на отделни редове, с по-малък отстъп помежду им */
+.breed-info,
+.purity-info {
+  margin-bottom: 0px;
+  /* по-малък отстъп между тези два реда */
+  color: #ccc;
+}
+
+/* Запазваме иконката на Breed */
+.breed-icon {
+  width: 18px !important;
+  height: 18px !important;
+  vertical-align: middle;
+  margin-right: 0px;
+  border-radius: 3px;
+  /* по желание */
+}
+
+.genes-emoji {
+  display: inline-block;
+  font-size: 10px;
+  line-height: 1;
+  transform: translate(3px, -2px);
+  /* X, Y → нагоре с 2px */
+  margin-right: 4px;
+}
+
+
+
+
+.axie-summary-line {
+  display: flex;
+  gap: 10px;
+  padding: 4px 8px;
+  font-size: 13px;
+  align-items: center;
+}
+
+/* ===========================
+   Axie card - Value rows
+   =========================== */
+
+:root {
+  /* Акценти – можеш да пипнеш нюансите по твой вкус */
+  --chip-bg-1: rgba(255, 255, 255, 0.05);
+  --chip-bg-2: rgba(255, 255, 255, 0.02);
+  --chip-brd: rgba(255, 255, 255, 0.10);
+  --text-strong: #f1f5f9;
+  /* почти бяло */
+  --text-muted: #cbd5e1;
+  /* сиво за етикети */
+  --accent-profit-1: rgba(16, 185, 129, 0.12);
+  /* зелено фоново */
+  --accent-profit-2: rgba(16, 185, 129, 0.06);
+  --accent-profit-brd: #8da303;
+}
+
+/* Контейнерът, в който вкарваме редовете */
+.axie-card .axie-summary-line .min-value-placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* дистанция между двата реда */
+}
+
+/* Базов стил за двата реда */
+.axie-card .min-value,
+.axie-card .pure-profit {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+  /* един ред */
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--chip-brd);
+  background: linear-gradient(180deg, var(--chip-bg-1), var(--chip-bg-2));
+  color: var(--text-strong);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  /* подравняване на цифри */
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .18);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+}
+
+/* Леко „приповдигане“ при hover */
+.axie-card .min-value:hover,
+.axie-card .pure-profit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+}
+
+/* Етикетите (лявата част на текста) – по-деликатни */
+.axie-card .min-value,
+.axie-card .pure-profit {
+  /* „Real Value:“ и „pure profit:“ са част от текста;
+       намаляваме контраста на етикета със следния трик: */
+}
+
+.axie-card .min-value {
+  color: var(--text-muted);
+}
+
+.axie-card .min-value b,
+.axie-card .min-value strong,
+.axie-card .min-value .value,
+.axie-card .min-value [data-val] {
+  color: var(--text-strong);
+}
+
+/* За реда „pure profit“ – зеленикав нюанс */
+.axie-card .pure-profit {
+  border-color: var(--accent-profit-brd);
+  background: linear-gradient(180deg, var(--accent-profit-1), var(--accent-profit-2));
+}
+
+/* Ако някога добавиш клас за отрицателна печалба, това ще го оцвети леко в червено */
+.axie-card .pure-profit.neg {
+  border-color: #dd422b;
+  background: linear-gradient(180deg, rgba(239, 68, 68, 0.12), rgba(239, 68, 68, 0.06));
+}
+
+/* Малко пространство отгоре, за да „диша“ зоната */
+.axie-card .axie-summary-line {
+  margin-top: 4px;
+}
+
+.axie-card .pure-profit {
+  /* числото и % са в един ред – добавяме лека светлина */
+  text-shadow: 0 0 1px rgba(0, 0, 0, .2);
+}
+
+.axie-card .min-value,
+.axie-card .pure-profit {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 1) Основно решение: подравняваме съдържанието вляво */
+.axie-card .axie-summary-line {
+  display: flex;
+  /* ако вече е flex, това не пречи */
+  justify-content: flex-start;
+  /* важният ред */
+  text-align: left;
+  /* ако някъде има text-align:right */
+}
+
+/* 2) Уверяваме се, че вътрешният контейнер не дърпа надясно */
+.axie-card .axie-summary-line .min-value-placeholder {
+  margin-right: auto;
+  /* бута блока вляво при flex родител */
+  align-items: flex-start;
+  /* вътре редовете да са вляво */
+}
+
+/* 3) Ако има много силни правила другаде, подсили с !important */
+.axie-card .axie-summary-line {
+  justify-content: flex-start !important;
+}
+
+.axie-card .axie-summary-line .min-value-placeholder {
+  margin-right: auto !important;
+}
+
+/* Бутни блока с редовете плътно вляво само с margin */
+.axie-card .axie-summary-line .min-value-placeholder {
+  margin-left: -9px !important;
+  /* прилепи вляво */
+}
+
+.axp-today-label {
+  text-align: center;
+  font-size: 9px;
+  margin-top: -21px;
+  margin-bottom: 4px;
+  margin-left: 54px;
+  margin-right: 4px;
+  font-weight: bold;
+  color: #ffe7b3;
+  /* лек жълтеникав текст */
+  background-color: #6d3f16;
+  /* кафяво-златист фон */
+  padding: 2px 2px;
+  border-radius: 12px;
+  display: block;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+body.axp-view .axp-today-label {
+  position: absolute;
+  font-size: 11px;
+  margin-top: -5px;
+  margin-left: 50px;
+  padding: 4px 6px;
+  border-radius: 14px;
+  transform-origin: center;
+  z-index: 55;
+}
+
+
+/* AXP таблица стил */
+.axie-card .gene-table td {
+  padding: 3px 6px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #f0c674;
+  border: 1px solid #444;
+}
+
+.axie-card .gene-table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  margin-top: 4px;
+  max-width: 100%;
+}
+
+/* 📌 Стилизиране на таблицата с AXP */
+.axp-table {
+  width: 100%;
+  max-width: 180px;
+  margin: 6px auto;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.axp-table td {
+  border: 1px solid #444;
+  padding: 4px 6px;
+  color: #f0c674;
+  text-align: center;
+  font-size: 0.85em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.axie-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.axp-graph-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.axp-svg-graph {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.axp-label-top {
+  z-index: 5;
+  text-align: center;
+  font-size: 0.5em;
+  color: #ccc;
+  margin-bottom: 4px;
+  margin-right: 125px;
+  margin-top: 2px;
+}
+
+
+.axp-label-right {
+  text-align: right;
+  font-size: 0.5em;
+  /* беше 0.9em */
+  color: #ccc;
+  margin-top: -11px;
+  margin-left: 105px;
+}
+
+
+/* ---------------------------------------
+🟦 GLOBAL MENU
+---------------------------------------- */
+/* ГЛОБАЛНО МЕНЮ: Основна рамка */
+#globalMenu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2c2c2c;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #fff;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+/* Лявата част: Axie Count + сортиране */
+#globalMenu .gm4-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-grow: 1;
+  flex-wrap: nowrap;
+}
+
+/* Axie Count */
+#globalMenu #axieCount {
+  font-weight: bold;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+
+/* Сортиращи бутони */
+#globalMenu .sort-controls {
+  display: flex;
+  gap: 8px;
+}
+
+#globalMenu .sort-controls button {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 8px;
+  background-color: #333;
+  color: white;
+  border: 1px solid #666;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#globalMenu .sort-controls button:hover {
+  background-color: #3a3a3a;
+}
+
+#globalMenu .sort-controls button.active {
+  background-color: #1e90ff;
+  color: white;
+  font-weight: bold;
+  border: 2px solid #3399ff;
+}
+
+/* View Switcher (вдясно) */
+#globalMenu .gm4-views {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+#globalMenu .view-switcher {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#globalMenu .view-switcher button,
+#globalMenu .view-switcher .view-btn {
+  padding: 10px 14px;
+  font-size: 14px;
+  border-radius: 12px;
+  background-color: #444;
+  color: white;
+  border: 1px solid #666;
+  cursor: pointer;
+}
+
+#globalMenu .view-switcher .view-btn.active {
+  background-color: #1e90ff;
+  color: white;
+  font-weight: bold;
+  border: 2px solid #3399ff;
+}
+
+/* Responsive: мобилна версия под 900px */
+@media (max-width: 900px) {
+  #globalMenu {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #globalMenu .gm4-left {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  #globalMenu .gm4-views {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+}
+
+
+
+.purity-info {
+  font-size: 12px;
+  color: #ccc;
+  margin-top: 4px;
+}
+
+
+
+/* Стил за бутоните */
+.filter-button {
+  padding: 8px 15px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: capitalize;
+  font-size: 14px;
+}
+
+.filter-button:hover {
+  background-color: #555;
+}
+
+/* Стил за по-малките бутони */
+.small-filter-button {
+  padding: 5px 10px;
+  /* Малки размери */
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: capitalize;
+  font-size: 7px;
+  /* Намален шрифт */
+}
+
+.small-filter-button:hover {
+  background-color: #555;
+}
+
+/* Скриваме бутоните за AXS, SLP и ETH визуално, но те ще продължат да работят */
+.hidden-button {
+  display: none;
+  /* Скриваме бутоните */
+}
+
+
+/* Контейнер за бутоните */
+#viewSwitcher2 {
+  display: flex;
+  justify-content: center;
+  /* Центрира бутоните за мементото */
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  /* Позиционираме малките бутони относително */
+}
+
+
+
+/* Контейнер за малките бутони, с дясно подреждане */
+#viewSwitcher2 .small-buttons {
+  display: flex;
+  justify-content: flex-end;
+  /* Дясно подреждане */
+  gap: 5px;
+  position: absolute;
+  right: 0;
+  /* Подреждаме малките бутони в дясно */
+}
+
+/* Бутонът в менюто */
+#acqControls .acq-btn {
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .05);
+  color: #e5e7eb;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, transform .1s ease;
+}
+
+#acqControls .acq-btn:hover {
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .18);
+}
+
+#acqControls .acq-btn:active {
+  transform: translateY(1px);
+}
+
+/* CENTERED MODAL OVERLAY */
+.acq-overlay {
+  position: fixed;
+  inset: 0;
+  /* top:0; right:0; bottom:0; left:0 */
+  z-index: 9999;
+  display: none;
+  /* показва се като 'flex' при open() */
+  align-items: center;
+  /* центриране по вертикал */
+  justify-content: center;
+  /* центриране по хоризонтал */
+  background: rgba(0, 0, 0, 0.5);
+  /* тъмен фон */
+  backdrop-filter: blur(2px);
+  /* лек blur, по желание */
+}
+
+/* Съдържанието на модала */
+.acq-modal {
+  width: min(92vw, 420px);
+  max-height: 80vh;
+  overflow: auto;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(17, 24, 39, 0.98);
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  color: #e5e7eb;
+}
+
+/* Header */
+.acq-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.acq-modal-head .acq-close {
+  all: unset;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  opacity: .75;
+  padding: 2px 6px;
+}
+
+.acq-modal-head .acq-close:hover {
+  opacity: 1;
+}
+
+/* Body */
+.acq-modal-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.acq-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .03);
+}
+
+.acq-name {
+  text-transform: capitalize;
+  opacity: .9;
+}
+
+.acq-input {
+  width: 110px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, .35);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .14);
+  outline: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.acq-input:focus {
+  border-color: rgba(59, 130, 246, .65);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, .25);
+  background: rgba(0, 0, 0, .5);
+}
+
+.acq-hint {
+  font-size: 12px;
+  opacity: .75;
+  margin-top: 4px;
+}
+
+.acq-hint .sep {
+  opacity: .55;
+}
+
+/* Footer */
+.acq-modal-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.acq-modal-foot .acq-save,
+.acq-modal-foot .acq-reset {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .06);
+  color: #e5e7eb;
+  cursor: pointer;
+}
+
+.acq-modal-foot .acq-save:hover {
+  background: rgba(16, 185, 129, .25);
+  border-color: rgba(16, 185, 129, .45);
+}
+
+.acq-modal-foot .acq-reset:hover {
+  background: rgba(239, 68, 68, .25);
+  border-color: rgba(239, 68, 68, .45);
+}
+
+/* Когато бутонът е в сайдбара */
+#sidebar #acqControls,
+.sidebar #acqControls,
+#leftSidebar #acqControls,
+#sidePanel #acqControls,
+#filtersPanel #acqControls,
+#filtersSidebar #acqControls,
+#navSidebar #acqControls {
+  margin: 8px 10px;
+  /* по желание: промени отстоянията */
+}
+
+#acqControls .acq-btn {
+  width: 100%;
+  text-align: center;
+}
+
+/* Ако sidebar е scrollable и искаш бутонът да е винаги видим */
+.sidebar #acqControls,
+#sidebar #acqControls {
+  position: sticky;
+  top: 10px;
+  z-index: 2;
+}
+
+/* ── Fallback стил директно за #filterGene (ако wrapper още не е създаден) ── */
+#filterGene {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  /* място за иконката вляво */
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .12);
+  color: #e5e7eb;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.1;
+  transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23cbd5e1' viewBox='0 0 24 24'>\
+<path d='M21 20l-5.6-5.6a7 7 0 10-1.4 1.4L20 21l1-1zM4 10a6 6 0 1112 0A6 6 0 014 10z'/>\
+</svg>");
+  background-repeat: no-repeat;
+  background-position: 10px 50%;
+  background-size: 16px;
+}
+
+#filterGene::placeholder {
+  color: #a9b1bb;
+  opacity: .85;
+}
+
+#filterGene:hover {
+  border-color: rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .08);
+}
+
+#filterGene:focus {
+  border-color: rgba(59, 130, 246, .65);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, .25);
+  background: rgba(255, 255, 255, .10);
+}
+
+/* ── Облечен вариант ── */
+.gene-search {
+  position: relative;
+  margin-top: 8px;
+}
+
+.gene-search input#filterGene {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .12);
+  color: #e5e7eb;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.1;
+  transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23cbd5e1' viewBox='0 0 24 24'>\
+<path d='M21 20l-5.6-5.6a7 7 0 10-1.4 1.4L20 21l1-1zM4 10a6 6 0 1112 0A6 6 0 014 10z'/>\
+</svg>");
+  background-repeat: no-repeat;
+  background-position: 10px 50%;
+  background-size: 16px;
+}
+
+.gene-search input#filterGene::placeholder {
+  color: #a9b1bb;
+  opacity: .85;
+}
+
+.gene-search input#filterGene:hover {
+  border-color: rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .08);
+}
+
+.gene-search input#filterGene:focus {
+  border-color: rgba(59, 130, 246, .65);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, .25);
+  background: rgba(255, 255, 255, .10);
+}
+
+/* Бутон „Х“ (универсален) */
+.gene-search .clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #cbd5e1;
+  display: none;
+  /* показва се само при текст */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.gene-search .clear-btn:hover {
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .16);
+}
+
+/* Нативният WebKit „Х“, ако input е type=search */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  background: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>\
+<line x1='18' y1='6' x2='6' y2='18'/>\
+<line x1='6' y1='6' x2='18' y2='18'/>\
+</svg>") no-repeat center center;
+  cursor: pointer;
+}
+
+
+/* ---------------------------------------
+🧬 AXIE CARDS
+---------------------------------------- */
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.axie-card {
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  border: 1px solid #444;
+  padding: 12px;
+  width: 197px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.axie-card a {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.axie-img {
+  width: 100%;
+  max-width: 140px;
+  display: block;
+  margin-left: 46px;
+  margin-bottom: -10px;
+  margin-top: -10px;
+}
+
+.axie-header {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: rgba(44, 44, 44, 0.8);
+  padding: 6px;
+  border-radius: 8px;
+  font-size: 0.85em;
+  line-height: 1.4em;
+  color: #eee;
+  max-width: 50%;
+  z-index: 10;
+}
+
+
+.value {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Прозрачен фон, за да се вижда текстът */
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 8px;
+}
+
+.special-collections-top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-size: 8px;
+  line-height: 1.1;
+}
+
+.axie-card {
+  position: relative;
+}
+
+.breed-info {
+  font-size: 12px;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  margin-top: 4px;
+}
+
+.breed-icon {
+  width: 16px;
+  height: 16px;
+}
+
+
+.level-badge {
+  display: inline-block;
+  background-color: #3a3a3a;
+  /* тъмен фон – можеш да смениш */
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  text-align: center;
+  line-height: 26px;
+  font-size: 13px;
+}
+
+
+
+.memento-info {
+  font-size: 10px;
+  color: white;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-family: Arial, sans-serif;
+  word-wrap: break-word;
+}
+
+
+.memento-info strong {
+  font-weight: bold;
+  color: #fff;
+  /* Подчертава заглавието на мементото */
+}
+
+.collection-top-right {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 4px;
+  z-index: 10;
+}
+
+.collection-top-right img {
+  width: 16px;
+  height: 16px;
+}
+
+
+
+/* ---------------------------------------
+📊 GENE TABLE
+---------------------------------------- */
+.gene-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 11px;
+  table-layout: fixed;
+  margin-top: 4px;
+  border: 0.5px solid #171717;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #171717;
+}
+
+.gene-table td {
+  border: 0.5px solid #171717;
+  padding: 2px 4px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color: #171717;
+}
+
+.part-name {
+  font-weight: bold;
+}
+
+.gene-table th {
+  background: #3a3a3a;
+}
+
+.axp-hide-table .gene-table {
+  display: none;
+}
+
+.axp-show-table .gene-table {
+  display: table;
+}
+
+/* ---------------------------------------
+👤 DELEGATION
+---------------------------------------- */
+.delegatee-label {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #ccc;
+  text-align: center;
+}
+
+/* ---------------------------------------
+📈 AXP PROGRESS
+---------------------------------------- */
+.axp-progress-wrapper {
+  width: 90%;
+  margin: 10px auto;
+}
+
+.axp-bar-container {
+  height: 16px;
+  width: 100%;
+  background: #2f2f2f;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.axp-progress-bar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  color: #111;
+  font-size: 10px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: width 0.4s ease;
+}
+
+.axp-progress-bar.today {
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+}
+
+.axp-progress-bar.yesterday {
+  background: linear-gradient(to right, #f7971e, #ffd200);
+}
+
+.axp-icon-inline {
+  width: 35px;
+  height: auto;
+  vertical-align: middle;
+  margin-left: 6px;
+  cursor: pointer;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.axp-icon-inline:hover {
+  transform: scale(1.1);
+}
+
+.axp-icon-row {
+  margin-top: 6px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------------------------------------
+⏳ LOADING SPINNER
+---------------------------------------- */
+/* ⏳ Spinner Overlay */
+#loadingSpinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(30, 30, 30, 0.4);
+  display: none;
+  /* ще стане flex чрез JS */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+/* 🔄 Half-Circle Spinner (AXP син) */
+.half-circle-spinner,
+.half-circle-spinner * {
+  box-sizing: border-box;
+}
+
+.half-circle-spinner {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  position: relative;
+}
+
+.half-circle-spinner .circle {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  border: calc(60px / 10) solid transparent;
+}
+
+.half-circle-spinner .circle.circle-1 {
+  border-top-color: #00c3ff;
+  animation: half-circle-spinner-animation 1s infinite;
+}
+
+.half-circle-spinner .circle.circle-2 {
+  border-bottom-color: #00c3ff;
+  animation: half-circle-spinner-animation 1s infinite alternate;
+}
+
+@keyframes half-circle-spinner-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 💬 Текст под спинъра */
+.spinner-text {
+  margin-top: 16px;
+  color: #00c3ff;
+  font-size: 1.3em;
+  font-family: 'Segoe UI', 'Roboto', 'Montserrat', sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 0 0 4px rgba(0, 195, 255, 0.4);
+  text-align: center;
+  animation: pulseText 2s infinite;
+}
+
+@keyframes pulseText {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* ---------------------------------------
+/* 🧪 FILTER BUTTONS – Class / Breed / Level */
+
+/* 🎨 Class Buttons */
+.class-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  justify-items: center;
+  margin: 3px 0;
+}
+
+.class-buttons button {
+  width: 37px;
+  height: 37px;
+  padding: 5px;
+  border: none;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  opacity: 0.4;
+  background-color: #444;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+}
+
+.class-buttons button img {
+  width: 18px;
+  height: 18px;
+  margin-bottom: 5px;
+}
+
+.class-buttons button.active {
+  opacity: 1;
+  box-shadow: 0 0 0 3px #eee inset;
+}
+
+
+/* 🧬 Breed Buttons */
+.breed-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0px;
+}
+
+.breed-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.breed-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.breed-btn {
+  padding: 6px 13.2px;
+  font-size: 10px;
+  border-radius: 6px;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  opacity: 0.8;
+  text-align: center;
+}
+
+.breed-btn.active {
+  opacity: 1;
+  box-shadow: 0 0 0 2px #888 inset;
+}
+
+body.theme-reptile .breed-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+body.theme-reptile .breed-btn {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 0;
+  height: 24px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+}
+
+body.theme-reptile .breed-btn.active {
+  border-color: #888;
+  box-shadow: 0 0 0 2px rgba(136, 136, 136, 0.25) inset;
+  opacity: 1;
+}
+
+
+/* 🧪 Level Buttons */
+.level-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.level-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0px;
+}
+
+.level-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.level-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.level-btn {
+  padding: 6px 0;
+  font-size: 10px;
+  border-radius: 6px;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  opacity: 0.8;
+  text-align: center;
+}
+
+.level-btn.active {
+  opacity: 1;
+  box-shadow: 0 0 0 2px #888 inset;
+}
+
+.level-row .level-btn {
+  flex: 1;
+}
+
+/* ⬛ Широки бутони (напр. All Levels) */
+.wide-btn {
+  width: 60px;
+  padding: 6px 0;
+  text-align: center;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+
+/* ---------------------------------------
+🧭 VIEW SWITCHER
+---------------------------------------- */
+.view-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px auto;
+}
+
+.view-switcher .view-btn {
+  padding: 6px 12px;
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.view-switcher .view-btn:hover {
+  background-color: #3a3a3a;
+}
+
+.view-switcher .view-btn.active {
+  background-color: #2196f3;
+  border-color: #2196f3;
+  color: white;
+}
+
+.sort-controls {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.sort-controls button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.sort-controls button:hover {
+  opacity: 1;
+}
+
+/* ===========================================================
+   REPTILE THEME — усилени стилове (без да пипаме memento buttons)
+   Активира се с .theme-reptile върху <body>
+   =========================================================== */
+body.theme-reptile {
+  --reptile-bg-1: #110a18;
+  --reptile-bg-2: #20112d;
+  --reptile-surface: rgba(24, 14, 34, 0.85);
+  --reptile-surface-2: rgba(33, 22, 48, 0.95);
+  --reptile-border: rgba(163, 129, 255, 0.28);
+  --reptile-border-strong: rgba(163, 129, 255, 0.45);
+  --reptile-accent: #7a3bd4;
+  --reptile-accent-2: #a381ff;
+  --reptile-text: #ece8f6;
+  --reptile-muted: #b9a9d6;
+
+  color-scheme: dark;
+  color: var(--reptile-text) !important;
+  background:
+    radial-gradient(1100px 600px at 80% -20%, rgba(122, 59, 212, 0.14), transparent 60%),
+    radial-gradient(800px 500px at -10% 110%, rgba(163, 129, 255, 0.10), transparent 60%),
+    linear-gradient(180deg, var(--reptile-bg-1), var(--reptile-bg-2)) !important;
+}
+
+/* ======= контейнери/панели/ленти ======= */
+body.theme-reptile #globalMenu,
+body.theme-reptile .global-menu,
+body.theme-reptile .controls-bar,
+body.theme-reptile .toolbar,
+body.theme-reptile .simulation,
+body.theme-reptile .simulation-panel,
+body.theme-reptile .axie-container-header,
+body.theme-reptile .gm4,
+body.theme-reptile .panel,
+body.theme-reptile .card-panel {
+  background: var(--reptile-surface) !important;
+  border: 1px solid var(--reptile-border) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+  color: var(--reptile-text) !important;
+}
+
+/* ======= sidebar (вляво) ======= */
+body.theme-reptile #sidebar,
+body.theme-reptile .sidebar,
+body.theme-reptile #filtersPanel,
+body.theme-reptile #filtersSidebar,
+body.theme-reptile #leftSidebar {
+  background: var(--reptile-surface-2) !important;
+  border: 1px solid var(--reptile-border) !important;
+  color: var(--reptile-text) !important;
+}
+
+body.theme-reptile .sidebar .section-title,
+body.theme-reptile .sidebar .label,
+body.theme-reptile .sidebar .muted {
+  color: var(--reptile-muted) !important;
+}
+
+/* бутони и чипове ВЪВ сайдбара (без memento линковете) */
+body.theme-reptile .sidebar button,
+body.theme-reptile .sidebar .btn,
+body.theme-reptile .sidebar .chip,
+body.theme-reptile .breed-buttons button,
+body.theme-reptile .level-buttons button,
+body.theme-reptile .class-buttons button,
+body.theme-reptile .range-pill,
+body.theme-reptile .toggle,
+body.theme-reptile .counter-pill {
+  background: rgba(122, 59, 212, 0.18) !important;
+  border: 1px solid var(--reptile-border) !important;
+  color: var(--reptile-text) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset !important;
+}
+
+body.theme-reptile .sidebar button:hover,
+body.theme-reptile .sidebar .btn:hover,
+body.theme-reptile .breed-buttons button:hover,
+body.theme-reptile .level-buttons button:hover {
+  background: rgba(122, 59, 212, 0.28) !important;
+}
+
+body.theme-reptile .sidebar .active,
+body.theme-reptile .breed-buttons button.active,
+body.theme-reptile .level-buttons button.active,
+body.theme-reptile .class-buttons button.active {
+  background: linear-gradient(180deg, rgba(163, 129, 255, 0.35), rgba(122, 59, 212, 0.35)) !important;
+  border-color: var(--reptile-border-strong) !important;
+}
+
+/* range inputs */
+body.theme-reptile input[type="range"]::-webkit-slider-runnable-track {
+  background: rgba(163, 129, 255, 0.35) !important;
+  height: 6px !important;
+  border-radius: 6px !important;
+}
+
+body.theme-reptile input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px !important;
+  height: 14px !important;
+  margin-top: -4px !important;
+  background: var(--reptile-accent) !important;
+  border: 1px solid var(--reptile-border-strong) !important;
+  border-radius: 50% !important;
+}
+
+body.theme-reptile input[type="range"]::-moz-range-track {
+  background: rgba(163, 129, 255, 0.35) !important;
+  height: 6px !important;
+  border-radius: 6px !important;
+}
+
+body.theme-reptile input[type="range"]::-moz-range-thumb {
+  background: var(--reptile-accent) !important;
+  border: 1px solid var(--reptile-border-strong) !important;
+  border-radius: 50% !important;
+}
+
+/* ======= view switcher (горе вдясно) ======= */
+body.theme-reptile #viewSwitcher button,
+body.theme-reptile .view-switcher button,
+body.theme-reptile .view-switcher .btn,
+body.theme-reptile .view-switcher .view-btn {
+  background: rgba(122, 59, 212, 0.18) !important;
+  border: 1px solid var(--reptile-border) !important;
+  color: var(--reptile-text) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset !important;
+}
+
+body.theme-reptile #viewSwitcher button:hover,
+body.theme-reptile .view-switcher button:hover {
+  background: rgba(122, 59, 212, 0.28) !important;
+}
+
+body.theme-reptile #viewSwitcher button.active,
+body.theme-reptile .view-switcher .active {
+  background: linear-gradient(180deg, rgba(163, 129, 255, 0.35), rgba(122, 59, 212, 0.35)) !important;
+  border-color: var(--reptile-border-strong) !important;
+}
+
+/* ======= Axie cards ======= */
+body.theme-reptile .axie-card {
+  background: rgba(23, 14, 33, 0.75) !important;
+  border: 1px solid var(--reptile-border) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset, 0 8px 18px rgba(0, 0, 0, 0.35) !important;
+  color: var(--reptile-text) !important;
+}
+
+body.theme-reptile .axie-card.simulated {
+  outline: 1px dashed var(--reptile-border-strong) !important;
+  outline-offset: 4px !important;
+}
+
+/* header елементи вътре в картата */
+body.theme-reptile .axie-card .level-badge,
+body.theme-reptile .axie-card .breed-info {
+  background: rgba(122, 59, 212, 0.18) !important;
+  border: 1px solid var(--reptile-border) !important;
+  color: var(--reptile-text) !important;
+}
+
+body.theme-reptile .axie-card .memento-breakdown .memento-class {
+  background: rgba(122, 59, 212, 0.12) !important;
+  border: 1px solid rgba(163, 129, 255, 0.20) !important;
+  color: var(--reptile-muted) !important;
+  border-radius: 10px;
+  padding: 2px 6px;
+}
+
+/* Value / Profit pills */
+body.theme-reptile .axie-card .min-value,
+body.theme-reptile .axie-card .pure-profit,
+body.theme-reptile .axie-card .profit,
+body.theme-reptile .axie-card .profit-pill {
+  background: rgba(122, 59, 212, 0.18) !important;
+  border: 1px solid var(--reptile-border) !important;
+  color: var(--reptile-text) !important;
+}
+
+body.theme-reptile .axie-card .pure-profit.neg,
+body.theme-reptile .axie-card .profit-negative {
+  background: rgba(210, 51, 74, 0.18) !important;
+  border-color: rgba(210, 51, 74, 0.45) !important;
+}
+
+/* ======= общи бутони (без memento линковете) ======= */
+body.theme-reptile button,
+body.theme-reptile .btn,
+body.theme-reptile .chip {
+  background: rgba(122, 59, 212, 0.18) !important;
+  border: 1px solid var(--reptile-border) !important;
+  color: var(--reptile-text) !important;
+}
+
+body.theme-reptile button:hover,
+body.theme-reptile .btn:hover {
+  background: rgba(122, 59, 212, 0.28) !important;
+}
+
+body.theme-reptile button.active,
+body.theme-reptile .btn.active {
+  background: linear-gradient(180deg, rgba(163, 129, 255, 0.35), rgba(122, 59, 212, 0.35)) !important;
+  border-color: var(--reptile-border-strong) !important;
+}
+
+/* НЕ пипаме цветните memento бутони (те са <a class="filter-button">) */
+body.theme-reptile a.filter-button {
+  /* остава оригиналния стил */
+}
+
+/* ======= дребни текстове ======= */
+body.theme-reptile .muted,
+body.theme-reptile .hint,
+body.theme-reptile .subtle {
+  color: var(--reptile-muted) !important;
+}
+
+/* ======= полета/инпути ======= */
+body.theme-reptile input[type="text"],
+body.theme-reptile input[type="number"],
+body.theme-reptile select,
+body.theme-reptile .input,
+body.theme-reptile .select {
+  background: rgba(122, 59, 212, 0.12) !important;
+  border: 1px solid var(--reptile-border) !important;
+  color: var(--reptile-text) !important;
+}
+
+/* ======= модали / поповъри ======= */
+body.theme-reptile .modal,
+body.theme-reptile .popover,
+body.theme-reptile .dropdown {
+  background: var(--reptile-surface) !important;
+  border: 1px solid var(--reptile-border) !important;
+  color: var(--reptile-text) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* ======= скролбар (по желание) ======= */
+body.theme-reptile ::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
+body.theme-reptile ::-webkit-scrollbar-thumb {
+  background: rgba(163, 129, 255, 0.35) !important;
+  border-radius: 8px !important;
+}
+
+body.theme-reptile ::-webkit-scrollbar-track {
+  background: rgba(122, 59, 212, 0.10) !important;
+}
+
+/* =========================================================
+   Reptile theme – допълнителни акценти за 3-те зони от снимката
+   ========================================================= */
+body.theme-reptile {
+  --rep-surface: rgba(24, 14, 34, 0.9);
+  --rep-surface-2: rgba(33, 22, 48, 0.95);
+  --rep-brd: rgba(163, 129, 255, 0.38);
+  --rep-brd-strong: rgba(163, 129, 255, 0.55);
+  --rep-text: #ece8f6;
+  --rep-muted: #b9a9d6;
+  --rep-pill: rgba(122, 59, 212, 0.22);
+  --rep-pill-hover: rgba(122, 59, 212, 0.32);
+  --rep-pill-active: linear-gradient(180deg, rgba(163, 129, 255, 0.38), rgba(122, 59, 212, 0.38));
+}
+
+/* 1) ТОП СУИЧЪР (Collectable / All / Memento)
+   Опитваме да хванем най-често ползваните класове за сегментиран контрол.
+   Ако твоят е с други имена, тези селектори пак „удрят“ бутони в първия блок на сайдбара. */
+body.theme-reptile #sidebar .segmented,
+body.theme-reptile #sidebar .tabs,
+body.theme-reptile #sidebar .toggle-group,
+body.theme-reptile .sidebar .segmented,
+body.theme-reptile .sidebar .tabs,
+body.theme-reptile .sidebar .toggle-group {
+  background: var(--rep-surface-2) !important;
+  border: 1px solid var(--rep-brd) !important;
+  border-radius: 14px !important;
+  padding: 6px !important;
+}
+
+body.theme-reptile #sidebar .segmented button,
+body.theme-reptile #sidebar .tabs button,
+body.theme-reptile #sidebar .toggle-group button,
+body.theme-reptile .sidebar .segmented button,
+body.theme-reptile .sidebar .tabs button,
+body.theme-reptile .sidebar .toggle-group button {
+  background: var(--rep-pill) !important;
+  border: 1px solid var(--rep-brd) !important;
+  color: var(--rep-text) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset !important;
+  transition: background .15s ease, transform .06s ease !important;
+}
+
+body.theme-reptile #sidebar .segmented button:hover,
+body.theme-reptile #sidebar .tabs button:hover,
+body.theme-reptile #sidebar .toggle-group button:hover,
+body.theme-reptile .sidebar .segmented button:hover,
+body.theme-reptile .sidebar .tabs button:hover,
+body.theme-reptile .sidebar .toggle-group button:hover {
+  background: var(--rep-pill-hover) !important;
+  transform: translateY(-1px);
+}
+
+body.theme-reptile #sidebar .segmented button.active,
+body.theme-reptile #sidebar .tabs button.active,
+body.theme-reptile #sidebar .toggle-group button.active,
+body.theme-reptile .sidebar .segmented button.active,
+body.theme-reptile .sidebar .tabs button.active,
+body.theme-reptile .sidebar .toggle-group button.active {
+  background: var(--rep-pill-active) !important;
+  border-color: var(--rep-brd-strong) !important;
+}
+
+/* 2) AXIE COUNT панел (в глобалното меню) */
+body.theme-reptile #axieCount,
+body.theme-reptile .axie-count,
+body.theme-reptile .axie-count-box {
+  background: var(--rep-surface) !important;
+  border: 1px solid var(--rep-brd) !important;
+  color: var(--rep-text) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+  border-radius: 14px !important;
+  padding: 10px 14px !important;
+}
+
+/* малките бутони в Axie Count (стрелки и т.н.) */
+body.theme-reptile #axieCount .btn,
+body.theme-reptile #axieCount button {
+  background: var(--rep-pill) !important;
+  border: 1px solid var(--rep-brd) !important;
+  color: var(--rep-text) !important;
+}
+
+body.theme-reptile #axieCount .btn:hover,
+body.theme-reptile #axieCount button:hover {
+  background: var(--rep-pill-hover) !important;
+}
+
+/* 3) ХЕДЪР ВЪВ Всяка AXIE КАРТА */
+body.theme-reptile .axie-card .axie-header {
+  background: var(--rep-surface) !important;
+  border: 1px solid var(--rep-brd) !important;
+  color: var(--rep-text) !important;
+  border-radius: 12px !important;
+  padding: 6px 8px !important;
+}
+
+/* бейджовете вътре (ниво, breed, purity) */
+body.theme-reptile .axie-card .level-badge,
+body.theme-reptile .axie-card .breed-info,
+body.theme-reptile .axie-card .purity-info {
+  background: var(--rep-pill) !important;
+  border: 1px solid var(--rep-brd) !important;
+  color: var(--rep-text) !important;
+  border-radius: 10px !important;
+}
+
+/* фиксираме дебелина на рамките, за да не „приплъзват“ при active/hover */
+body.theme-reptile .axie-card .level-badge,
+body.theme-reptile .axie-card .breed-info,
+body.theme-reptile .axie-card .purity-info,
+body.theme-reptile #axieCount,
+body.theme-reptile #sidebar .segmented button,
+body.theme-reptile #sidebar .tabs button,
+body.theme-reptile #sidebar .toggle-group button {
+  border-width: 1px !important;
+}
+
+/* ============================================
+   Reptile theme — по-елегантни (по-леки) рамки
+   ============================================ */
+body.theme-reptile {
+  --rep-surface: rgba(24, 14, 34, 0.90);
+  --rep-brd-soft: rgba(163, 129, 255, 0.18);
+  --rep-brd-ultra: rgba(163, 129, 255, 0.10);
+  --rep-pill-bg: rgba(122, 59, 212, 0.16);
+  --rep-pill-bg-2: rgba(122, 59, 212, 0.12);
+  --rep-text: #ece8f6;
+}
+
+/* Карта – по-мека рамка, без вътрешен „inset“ кант */
+body.theme-reptile .axie-card {
+  background: rgba(23, 14, 33, 0.78) !important;
+  border: 1px solid var(--rep-brd-soft) !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35) !important;
+  /* премахваш инсет-а */
+  color: var(--rep-text) !important;
+}
+
+/* Ако имаш декоративни „релси“ по краищата на картата */
+body.theme-reptile .axie-card::before,
+body.theme-reptile .axie-card::after {
+  display: none !important;
+}
+
+/* Симулирана карта – без груб dashed outline */
+body.theme-reptile .axie-card.simulated {
+  outline: none !important;
+  box-shadow: 0 0 0 1px var(--rep-brd-ultra) inset, 0 8px 18px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Хедърът в картата – по-фино очертание */
+body.theme-reptile .axie-card .axie-header {
+  background: var(--rep-pill-bg-2) !important;
+  border: 1px solid var(--rep-brd-ultra) !important;
+  border-radius: 12px !important;
+  padding: 6px 8px !important;
+}
+
+/* Бейджове (level / breed / purity) – махаме видимата рамка */
+body.theme-reptile .axie-card .level-badge,
+body.theme-reptile .axie-card .breed-info,
+body.theme-reptile .axie-card .purity-info {
+  background: var(--rep-pill-bg) !important;
+  border: 1px solid transparent !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02) inset !important;
+  /* много лек контур */
+  color: var(--rep-text) !important;
+}
+
+/* Memento „чипове“ – без рамка, по-нежно */
+body.theme-reptile .axie-card .memento-breakdown .memento-class {
+  background: var(--rep-pill-bg-2) !important;
+  border: 1px solid transparent !important;
+  color: #cfc6ea !important;
+}
+
+/* Value / Profit – без рамка, само фон (по-малко „таблети“) */
+body.theme-reptile .axie-card .min-value,
+body.theme-reptile .axie-card .pure-profit,
+body.theme-reptile .axie-card .profit,
+body.theme-reptile .axie-card .profit-pill {
+  background: var(--rep-pill-bg) !important;
+  border: 1px solid transparent !important;
+  color: var(--rep-text) !important;
+}
+
+/* Негативен profit – също без видима рамка, само цвят */
+body.theme-reptile .axie-card .pure-profit.neg,
+body.theme-reptile .axie-card .profit-negative {
+  background: rgba(210, 51, 74, 0.18) !important;
+  border: 1px solid transparent !important;
+}
+
+/* Axie Count кутия – по-фино очертание */
+body.theme-reptile #axieCount,
+body.theme-reptile .axie-count,
+body.theme-reptile .axie-count-box {
+  background: var(--rep-surface) !important;
+  border: 1px solid var(--rep-brd-ultra) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Горният сегментиран суичър – по-малко „твърд“ */
+body.theme-reptile #sidebar .segmented,
+body.theme-reptile .sidebar .segmented,
+body.theme-reptile #sidebar .tabs,
+body.theme-reptile .sidebar .tabs,
+body.theme-reptile #sidebar .toggle-group,
+body.theme-reptile .sidebar .toggle-group {
+  background: rgba(24, 14, 34, 0.85) !important;
+  border: 1px solid var(--rep-brd-ultra) !important;
+}
+
+body.theme-reptile #sidebar .segmented button,
+body.theme-reptile .sidebar .segmented button,
+body.theme-reptile #sidebar .tabs button,
+body.theme-reptile .sidebar .tabs button,
+body.theme-reptile #sidebar .toggle-group button,
+body.theme-reptile .sidebar .toggle-group button {
+  background: var(--rep-pill-bg-2) !important;
+  border: 1px solid transparent !important;
+}
+
+body.theme-reptile #sidebar .segmented button.active,
+body.theme-reptile .sidebar .segmented button.active,
+body.theme-reptile #sidebar .tabs button.active,
+body.theme-reptile .sidebar .tabs button.active,
+body.theme-reptile #sidebar .toggle-group button.active,
+body.theme-reptile .sidebar .toggle-group button.active {
+  background: var(--rep-pill-bg) !important;
+}
+
+/* Грид за глобалното меню: 4 равни колони; средната кутия заема 2 колони */
+#globalMenu .gm4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+#globalMenu .gm4-left {
+  grid-column: 1 / span 1;
+}
+
+#globalMenu .gm4-col-23 {
+  grid-column: 2 / span 2;
+}
+
+/* обединява 2 и 3 */
+#globalMenu .gm4-views {
+  grid-column: 4 / span 1;
+  justify-self: end;
+}
+
+/* ===== Luxury circle (Value only) ===== */
+.lux-metrics-circle {
+  position: relative;
+  width: 280px;
+  /* може 240–300 според мястото */
+  height: 280px;
+  border-radius: 50%;
+  background: rgba(23, 14, 33, 0.55);
+  backdrop-filter: blur(2px) saturate(1.05);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* външен секторен пръстен (пълним чрез JS с conic-gradient) */
+.lux-metrics-circle .lux-ring {
+  --ring-thickness: 22%;
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(#7a3bd4 0deg 360deg);
+  /* ще се замести динамично */
+  -webkit-mask:
+    radial-gradient(circle calc(50% - var(--ring-thickness)), #0000 99%, #000 0);
+  mask:
+    radial-gradient(circle calc(50% - var(--ring-thickness)), #0000 99%, #000 0);
+}
+
+.lux-metrics-circle .lux-inner {
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #ece8f6;
+  background: radial-gradient(90% 90% at 60% 30%, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.00));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.lux-amount {
+  font-size: 28px;
+  /* ↑ / ↓ според предпочитание */
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  line-height: 1.15;
+}
+
+.lux-label {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-top: 4px;
+}
+
+
+
+#globalMenu .gm4-col-23 {
+  display: flex;
+  align-items: center;
+  /* вертикално */
+  justify-content: center;
+  /* хоризонтално */
+}
+
+/* Гридът да “разпъва” реда по височина на най‑високата колона */
+#globalMenu .gm4 {
+  align-items: stretch;
+  /* всички клетки имат еднаква височина */
+}
+
+/* Средната клетка (2+3) – центриране по двете оси */
+#globalMenu .gm4-col-23 {
+  display: grid;
+  /* по-лесно центриране от flex */
+  place-items: center;
+  /* хоризонтално + вертикално по средата */
+}
+
+/* Контейнерът на кръга да запълва клетката, за да работи вертикалното центриране */
+#globalMenu .gm4-col-23 #metricsCircle {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  /* важен за вертикалното центриране */
+  min-height: 220px;
+  /* за всеки случай при ниско съдържание */
+}
+
+/* По желание: коригирай размера на самия кръг тук */
+.lux-metrics-circle {
+  width: 220px;
+  /* промени според мястото: 240–320px */
+  height: 220px;
+}
+
+.custom-axp-tooltip {
+  position: absolute;
+  background: #222;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0.95;
+  transition: opacity 0.1s ease;
+}
+
+body.axp-view .axp-today-label {
+  animation: subtlePulseAXP 3s ease-in-out infinite;
+}
+
+@keyframes subtlePulseAXP {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 2px rgba(255, 231, 179, 0.1);
+  }
+
+  50% {
+    transform: scale(1.0);
+    box-shadow: 0 0 4px rgba(255, 231, 179, 0.3);
+  }
+}
+
+.account-filter-btn {
+  padding: 6px 12px;
+  background-color: #444;
+  color: white;
+  border: 1px solid #666;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
+}
+
+.account-filter-btn:hover {
+  background-color: #555;
+}
+
+.account-dropdown {
+  width: 100%;
+  padding: 6px;
+  margin-top: -5px;
+  margin-bottom: 0px;
+  background-color: #2a2a2a;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
