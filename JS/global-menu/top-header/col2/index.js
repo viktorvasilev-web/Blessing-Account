@@ -14,24 +14,30 @@ function toNum(v) {
     return Number.isFinite(n) ? n : 0;
 }
 
-/* ---------- Sofia time ---------- */
-const TZ = 'Europe/Sofia';
-function nowParts() {
+/* ---------- UTC (GMT) ---------- */
+const TZ = 'UTC';
+
+/* Помощни: части от дата/час по UTC */
+function partsUTC(dateObj = new Date()) {
     const parts = new Intl.DateTimeFormat('en-GB', {
         timeZone: TZ, hour12: false,
         year: 'numeric', month: '2-digit', day: '2-digit',
         hour: '2-digit', minute: '2-digit'
-    }).formatToParts(new Date());
+    }).formatToParts(dateObj);
     const pick = t => Number(parts.find(p => p.type === t).value);
     return { y: pick('year'), m: pick('month'), d: pick('day'), h: pick('hour'), mi: pick('minute') };
 }
+
+/* Визуален „днес“ по UTC (денят се обръща в 00:00 UTC) */
 function baseDateForView() {
-    const { y, m, d, h, mi } = nowParts();
-    const beforeCut = (h < CUT_HOUR) || (h === CUT_HOUR && mi < CUT_MIN);
-    return new Date(y, m - 1, beforeCut ? d - 1 : d);
+    const { y, m, d } = partsUTC();
+    // Създаваме локален Date със същите y/m/d; за нас важни са самите числа
+    return new Date(y, m - 1, d);
 }
-function yesterdayDate() {
-    const { y, m, d } = nowParts();
+
+/* „Вчера“ по UTC – за commit на Yesterday */
+function yesterdayUTCDate() {
+    const { y, m, d } = partsUTC();
     return new Date(y, m - 1, d - 1);
 }
 
@@ -49,12 +55,12 @@ function writeSeriesRaw(monthKey, arr) {
     try { localStorage.setItem(`axp_daily_${monthKey}`, JSON.stringify(arr)); } catch { }
 }
 
-/* ---------- commit yesterday (direct + only-up) ---------- */
+/* ---------- commit yesterday (replace only if bigger) ---------- */
 function commitYesterdayDirect(yValInput) {
     const yVal = toNum(yValInput);
     if (!(yVal > 0)) return null;
 
-    const yDate = yesterdayDate();
+    const yDate = yesterdayUTCDate();           // <-- UTC „вчера“
     const mKey = monthKeyOf(yDate);
     const days = getDaysInMonth(yDate.getFullYear(), yDate.getMonth());
     const idx = yDate.getDate() - 1;
@@ -67,19 +73,19 @@ function commitYesterdayDirect(yValInput) {
         writeSeriesRaw(mKey, serie);
         try { localStorage.setItem('axp_last_yesterday_committed_ymd', ymd(yDate)); } catch { }
     }
-    return { key: mKey, idx, val: Math.max(prev, yVal) };
+    return { key: mKey, idx, val: next };
 }
 
 /* ---------- render ---------- */
 export function renderCol2(mount) {
     if (!mount) return;
 
-    // визуален ден (cutover 03:00 BG)
+    // визуален ден по UTC
     const base = baseDateForView();
     const monthKey = monthKeyOf(base);
     const monthDays = getDaysInMonth(base.getFullYear(), base.getMonth());
     const todayIdx = base.getDate() - 1;
-    const titleStr = `${monthNameEnOf(base)} ${base.getFullYear()} – AXP / Daily`;
+    const titleStr = `${monthNameEnOf(base)} ${base.getFullYear()} – AXP / Daily (UTC)`;
 
     // UI
     const wrapper = document.createElement('div'); wrapper.className = 'th-axp';
@@ -95,15 +101,15 @@ export function renderCol2(mount) {
     wrapper.appendChild(title); wrapper.appendChild(canvasWrap);
     mount.innerHTML = ''; mount.appendChild(wrapper);
 
-    // данни (прочети каквото има)
+    // данни
     let committed = readSeriesRaw(monthKey, monthDays);
     const totals0 = window.__AXP_TOTALS__ || { today: 0, yesterday: 0 };
     let seriesToDraw = committed.slice();
 
-    // live today
+    // live today (UTC ден)
     seriesToDraw[todayIdx] = toNum(totals0.today);
 
-    // commit & draw yesterday (ако е в същия месец)
+    // commit & draw вчера (ако е в същия месец)
     const c0 = commitYesterdayDirect(totals0.yesterday);
     if (c0 && c0.key === monthKey) {
         committed[c0.idx] = c0.val;
@@ -115,7 +121,7 @@ export function renderCol2(mount) {
     const redraw = () => { lastLayout = drawChart(canvas, seriesToDraw, { monthDays, todayIdx }); };
     ('ResizeObserver' in window) ? new ResizeObserver(() => redraw()).observe(canvasWrap) : window.addEventListener('resize', redraw);
 
-    // on updates: today + commit yesterday
+    // on updates: today + commit вчера
     document.addEventListener('axpTotalsUpdated', (ev) => {
         const t = ev?.detail || window.__AXP_TOTALS__ || {};
         seriesToDraw[todayIdx] = toNum(t.today);
@@ -133,7 +139,7 @@ export function renderCol2(mount) {
         const info = commitYesterdayDirect(t.yesterday);
         if (info && info.key === monthKey) {
             committed[info.idx] = info.val;
-            seriesToDraw[info.idx] = info.val;
+            seriesToDraw[info[idx]] = info.val;
             redraw();
         }
     };
@@ -151,7 +157,7 @@ export function renderCol2(mount) {
         const day = idx + 1;
         const val = toNum(seriesToDraw[idx]);
         const usd = val * USD_PER_AXP;
-        tooltip.innerHTML = `Day ${day} — ${val.toLocaleString()} AXP<br>≈ ${formatUSD(usd)}`;
+        tooltip.innerHTML = `Day ${day} — ${val.toLocaleString()} AXP<br>≈ ${formatUSD(usd)} (UTC)`;
         tooltip.style.left = `${e.clientX - rect.left}px`;
         tooltip.style.top = `${e.clientY - rect.top}px`;
         tooltip.style.display = 'block';

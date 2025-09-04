@@ -14,24 +14,24 @@ const CENTER_MODE = 'merged'; // ← обединени 2 и 3
 
 /* ---------- Helpers ---------- */
 function el(tag, attrs = {}, ...children) {
-    const node = document.createElement(tag);
-    for (const [k, v] of Object.entries(attrs || {})) {
-        if (k === 'class') node.className = v;
-        else if (k === 'dataset') Object.assign(node.dataset, v);
-        else if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2), v);
-        else if (v !== undefined && v !== null) node.setAttribute(k, v);
-    }
-    for (const c of children) {
-        if (c == null) continue;
-        if (c instanceof Node) node.appendChild(c);
-        else node.appendChild(document.createTextNode(String(c)));
-    }
-    return node;
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === 'class') node.className = v;
+    else if (k === 'dataset') Object.assign(node.dataset, v);
+    else if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2), v);
+    else if (v !== undefined && v !== null) node.setAttribute(k, v);
+  }
+  for (const c of children) {
+    if (c == null) continue;
+    if (c instanceof Node) node.appendChild(c);
+    else node.appendChild(document.createTextNode(String(c)));
+  }
+  return node;
 }
 
 function injectStyles() {
-    if (document.getElementById('topHeaderStyles')) return;
-    const css = `
+  if (document.getElementById('topHeaderStyles')) return;
+  const css = `
   /* —— Top Header (4 равни колони; 2 и 3 са обединени в общ контейнер) —— */
   .top-header {
     position: sticky;
@@ -104,87 +104,87 @@ function injectStyles() {
     .th-col2, .th-col3 { justify-content: center; }
     .th-col4 { grid-column: 2 / 3; justify-content: end; }
   }`;
-    const style = el('style', { id: 'topHeaderStyles' }, css);
-    document.head.appendChild(style);
+  const style = el('style', { id: 'topHeaderStyles' }, css);
+  document.head.appendChild(style);
 }
 
 function buildSkeleton() {
-    const mount = document.getElementById('topHeader');
-    if (!mount) return null;
+  const mount = document.getElementById('topHeader');
+  if (!mount) return null;
 
-    // предотвратяване на двойно рендериране
-    if (mount.firstChild?.classList?.contains('top-header')) return mount.firstChild;
+  // предотвратяване на двойно рендериране
+  if (mount.firstChild?.classList?.contains('top-header')) return mount.firstChild;
 
-    const header = el('header', { class: 'top-header', role: 'banner', 'aria-label': 'Primary header' },
-        el('div', { class: 'th-col1', id: 'th-col1' }),
-        el('div', { class: 'th-col2-3', 'aria-label': 'Center group' },
-            el('div', { class: 'th-col2', id: 'th-col2' }),
-            el('div', { class: 'th-col3', id: 'th-col3' }),
-        ),
-        el('div', { class: 'th-col4', id: 'th-col4' })
-    );
+  const header = el('header', { class: 'top-header', role: 'banner', 'aria-label': 'Primary header' },
+    el('div', { class: 'th-col1', id: 'th-col1' }),
+    el('div', { class: 'th-col2-3', 'aria-label': 'Center group' },
+      el('div', { class: 'th-col2', id: 'th-col2' }),
+      el('div', { class: 'th-col3', id: 'th-col3' }),
+    ),
+    el('div', { class: 'th-col4', id: 'th-col4' })
+  );
 
-    mount.innerHTML = '';
-    mount.appendChild(header);
-    return header;
+  mount.innerHTML = '';
+  mount.appendChild(header);
+  return header;
 }
 
 function applyCenterMode(mode = 'split') {
-    const parent = document.querySelector('.th-col2-3');
-    const col2 = document.getElementById('th-col2');
-    const col3 = document.getElementById('th-col3');
-    if (!parent || !col2 || !col3) return;
+  const parent = document.querySelector('.th-col2-3');
+  const col2 = document.getElementById('th-col2');
+  const col3 = document.getElementById('th-col3');
+  if (!parent || !col2 || !col3) return;
 
-    if (mode === 'merged') {
-        parent.style.gridTemplateColumns = '1fr';
-        col2.style.gridColumn = '1 / -1'; // центърът е един – ползваме col2
-        col3.style.display = 'none';      // скриваме col3
-    } else {
-        parent.style.gridTemplateColumns = '1fr 1fr';
-        col2.style.gridColumn = '';
-        col3.style.display = '';
-    }
+  if (mode === 'merged') {
+    parent.style.gridTemplateColumns = '1fr';
+    col2.style.gridColumn = '1 / -1'; // центърът е един – ползваме col2
+    col3.style.display = 'none';      // скриваме col3
+  } else {
+    parent.style.gridTemplateColumns = '1fr 1fr';
+    col2.style.gridColumn = '';
+    col3.style.display = '';
+  }
 }
 
 /* ---------- Публичен API за добавки ---------- */
 export const TopHeaderAPI = {
-    set(slotId, nodeOrHTML) {
-        const slot = document.getElementById(slotId);
-        if (!slot) return null;
-        slot.innerHTML = '';
-        if (nodeOrHTML instanceof Node) slot.appendChild(nodeOrHTML);
-        else slot.innerHTML = String(nodeOrHTML);
-        return slot;
-    },
-    append(slotId, nodeOrHTML) {
-        const slot = document.getElementById(slotId);
-        if (!slot) return null;
-        if (nodeOrHTML instanceof Node) slot.appendChild(nodeOrHTML);
-        else slot.insertAdjacentHTML('beforeend', String(nodeOrHTML));
-        return slot;
-    },
-    setCenterMode(mode) {
-        applyCenterMode(mode === 'merged' ? 'merged' : 'split');
-    }
+  set(slotId, nodeOrHTML) {
+    const slot = document.getElementById(slotId);
+    if (!slot) return null;
+    slot.innerHTML = '';
+    if (nodeOrHTML instanceof Node) slot.appendChild(nodeOrHTML);
+    else slot.innerHTML = String(nodeOrHTML);
+    return slot;
+  },
+  append(slotId, nodeOrHTML) {
+    const slot = document.getElementById(slotId);
+    if (!slot) return null;
+    if (nodeOrHTML instanceof Node) slot.appendChild(nodeOrHTML);
+    else slot.insertAdjacentHTML('beforeend', String(nodeOrHTML));
+    return slot;
+  },
+  setCenterMode(mode) {
+    applyCenterMode(mode === 'merged' ? 'merged' : 'split');
+  }
 };
 
 /* ---------- Главен вход ---------- */
 export function renderTopHeader() {
-    injectStyles();
-    const header = buildSkeleton();
-    if (!header) return;
+  injectStyles();
+  const header = buildSkeleton();
+  if (!header) return;
 
-    // Рендър по колони (отделни модули)
-    const c1 = document.getElementById('th-col1');
-    const c2 = document.getElementById('th-col2');
-    const c3 = document.getElementById('th-col3');
-    const c4 = document.getElementById('th-col4');
+  // Рендър по колони (отделни модули)
+  const c1 = document.getElementById('th-col1');
+  const c2 = document.getElementById('th-col2');
+  const c3 = document.getElementById('th-col3');
+  const c4 = document.getElementById('th-col4');
 
-    renderCol1(c1);
-    renderCol2(c2);
-    renderCol3(c3); // ще е скрит при 'merged', но може да го оставиш за бъдеще
-    renderCol4(c4);
+  renderCol1(c1);
+  renderCol2(c2);
+  renderCol3(c3); // ще е скрит при 'merged', но може да го оставиш за бъдеще
+  renderCol4(c4);
 
-    // Прилагаме режим на центъра (тук: merged)
-    applyCenterMode(CENTER_MODE);
+  // Прилагаме режим на центъра (тук: merged)
+  applyCenterMode(CENTER_MODE);
 }

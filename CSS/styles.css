@@ -2439,3 +2439,7 @@ body.axp-view .axp-today-label {
   animation: warnPulseOverlay 2.2s ease-in-out infinite both;
   will-change: transform, opacity;
 }
+
+.th-axp-controls {
+  user-select: none;
+}
